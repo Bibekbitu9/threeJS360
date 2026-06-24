@@ -1,9 +1,14 @@
 import React from 'react';
 import { useGLTF } from '@react-three/drei';
 
-// TODO: Replace this URL with your Lightsail domain once uploaded
-// Example: 'https://your-domain.com/model_glb_F.glb'
-const MODEL_URL = 'https://asi-tour.in/model_glb_F_4k.glb';
+const isMobile = typeof window !== 'undefined' && (
+  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+  window.innerWidth < 768
+);
+
+const MODEL_URL = isMobile
+  ? 'https://asi-tour.in/model_glb_F_4k.glb'
+  : 'https://asi-tour.in/model_glb_F.glb';
 
 const Model: React.FC = () => {
   const { scene } = useGLTF(MODEL_URL);
