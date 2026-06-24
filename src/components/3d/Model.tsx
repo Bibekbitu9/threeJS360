@@ -2,8 +2,7 @@ import React from 'react';
 import { useGLTF } from '@react-three/drei';
 
 const isMobile = typeof window !== 'undefined' && (
-  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-  window.innerWidth < 768
+  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 );
 
 const MODEL_URL = isMobile
