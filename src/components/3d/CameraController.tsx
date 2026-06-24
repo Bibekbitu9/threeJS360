@@ -4,8 +4,13 @@ import gsap from 'gsap';
 import * as THREE from 'three';
 import { useAppStore } from '../../store/useAppStore';
 
+const isMobile = typeof window !== 'undefined' && (
+  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+  window.innerWidth < 768
+);
+
 const PRESETS = {
-  hero: { pos: [0, 4, 16], target: [0, 0, 0] },
+  hero: { pos: isMobile ? [0, 8, 45] : [0, 6, 30], target: [0, 0, 0] },
   front: { pos: [0, 0, 12], target: [0, 0, 0] },
   back: { pos: [0, 0, -6], target: [0, 0, 0] },
   top: { pos: [0, 8, 0], target: [0, 0, 0] },

@@ -1,124 +1,137 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAppStore } from '../../store/useAppStore';
-import type { AppMode, EnvironmentMode, WeatherMode, CameraPreset } from '../../store/useAppStore';
+import type { EnvironmentMode, WeatherMode } from '../../store/useAppStore';
 
 const Overlay: React.FC = () => {
   const {
-    mode, setMode,
     environment, setEnvironment,
     weather, setWeather,
-    cameraPreset, setCameraPreset,
     autoSpin, setAutoSpin
   } = useAppStore();
 
+  const checkIsMobile = () => {
+    if (typeof window === 'undefined') return false;
+    return window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  };
+
+  const [isMobile, setIsMobile] = useState(checkIsMobile);
+  const [showControls, setShowControls] = useState(!checkIsMobile());
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(checkIsMobile());
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Shared button styles
+  const buttonActive = "bg-indigo-500/20 border-indigo-400 text-indigo-100 shadow-[0_0_15px_rgba(99,102,241,0.4)]";
+  const buttonInactive = "bg-black/40 border-white/10 text-white/50 hover:bg-white/10 hover:text-white hover:border-white/20";
+
   return (
-    <div className="absolute inset-0 z-10 pointer-events-none flex flex-col justify-between p-4 md:p-8">
+    <div className="absolute inset-0 z-10 pointer-events-none flex flex-col justify-between p-4 md:p-8 overflow-hidden select-none">
       {/* Header */}
-      <header className="pointer-events-auto max-w-sm md:max-w-md animate-fade-in-down" style={{ animation: 'fadeInDown 0.8s ease-out' }}>
-        <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-white drop-shadow-lg">
+      <header className="pointer-events-auto max-w-sm md:max-w-md animate-fade-in-down">
+        <h1 className="text-3xl md:text-5xl font-black tracking-widest text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.3)] uppercase">
           Ancient Ruins
         </h1>
-        <p className="text-white/60 mt-1 text-sm md:text-base font-medium tracking-wide">
-          Interactive 3D Exploration
+        <p className="text-indigo-300 mt-1 text-sm md:text-base font-bold tracking-[0.2em] uppercase text-shadow-sm">
+          Interactive Simulation
         </p>
       </header>
 
       {/* Control Panel (Right Side Desktop, Bottom Mobile) */}
-      <div className="pointer-events-auto flex flex-col gap-4 self-end w-full md:w-auto md:max-w-sm mt-4 md:mt-0 md:absolute md:top-8 md:right-8 md:bottom-auto">
-        <div className="bg-black/30 backdrop-blur-xl border border-white/10 rounded-2xl p-4 flex flex-col gap-4 text-white">
-          <h2 className="text-xs font-bold uppercase tracking-wider text-white/50 border-b border-white/5 pb-2">
-            Control Center
-          </h2>
+      <div className="pointer-events-auto flex flex-col gap-4 self-end w-full md:w-auto md:min-w-[320px] mt-4 md:mt-0 md:absolute md:top-8 md:right-8 md:bottom-auto">
+        {/* Toggle Button for Mobile */}
+        {isMobile && (
+          <motion.button 
+            whileTap={{ scale: 0.9 }}
+            onClick={() => setShowControls(!showControls)}
+            className="self-end w-12 h-12 flex items-center justify-center bg-zinc-900/90 backdrop-blur-md border border-indigo-500/50 rounded-full text-xl shadow-[0_0_15px_rgba(99,102,241,0.2)] transition-colors hover:bg-indigo-900/50"
+          >
+            {showControls ? '✕' : '🏛️'}
+          </motion.button>
+        )}
 
-          {/* Mode */}
-          <div className="flex flex-col gap-1.5">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-white/40">Exploration Mode</span>
-            <div className="grid grid-cols-3 gap-1 bg-white/5 rounded-lg p-0.5">
-              {(['explore', 'tour', 'cinematic'] as AppMode[]).map((m) => (
-                <button
-                  key={m}
-                  onClick={() => setMode(m)}
-                  className={`py-1 text-xs font-medium rounded-md transition-all ${
-                    mode === m ? 'bg-white/15 text-white shadow-sm' : 'text-white/60 hover:text-white hover:bg-white/5'
-                  }`}
-                >
-                  {m.charAt(0).toUpperCase() + m.slice(1)}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Time of Day */}
-          <div className="flex flex-col gap-1.5">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-white/40">Time of Day</span>
-            <div className="grid grid-cols-4 gap-1 bg-white/5 rounded-lg p-0.5">
-              {(['day', 'sunset', 'night', 'festival'] as EnvironmentMode[]).map((env) => (
-                <button
-                  key={env}
-                  onClick={() => setEnvironment(env)}
-                  className={`py-1 text-xs font-medium rounded-md transition-all ${
-                    environment === env ? 'bg-white/15 text-white shadow-sm' : 'text-white/60 hover:text-white hover:bg-white/5'
-                  }`}
-                >
-                  {env.charAt(0).toUpperCase() + env.slice(1)}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Weather */}
-          <div className="flex flex-col gap-1.5">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-white/40">Weather Effects</span>
-            <div className="grid grid-cols-5 gap-1 bg-white/5 rounded-lg p-0.5">
-              {(['clear', 'rain', 'snow', 'fog', 'dust'] as WeatherMode[]).map((w) => (
-                <button
-                  key={w}
-                  onClick={() => setWeather(w)}
-                  className={`py-1 text-xs font-medium rounded-md transition-all ${
-                    weather === w ? 'bg-white/15 text-white shadow-sm' : 'text-white/60 hover:text-white hover:bg-white/5'
-                  }`}
-                >
-                  {w.charAt(0).toUpperCase() + w.slice(1)}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Camera View */}
-          <div className="flex flex-col gap-1.5">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-white/40">Camera Angles</span>
-            <div className="grid grid-cols-3 gap-1 bg-white/5 rounded-lg p-0.5">
-              {(['hero', 'front', 'back', 'top', 'side', 'drone'] as CameraPreset[]).map((p) => (
-                <button
-                  key={p}
-                  onClick={() => setCameraPreset(p)}
-                  className={`py-1 text-xs font-medium rounded-md transition-all ${
-                    cameraPreset === p ? 'bg-white/15 text-white shadow-sm' : 'text-white/60 hover:text-white hover:bg-white/5'
-                  }`}
-                >
-                  {p.charAt(0).toUpperCase() + p.slice(1)}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Rotation Control */}
-          <div className="flex items-center justify-between border-t border-white/5 pt-2">
-            <span className="text-xs font-medium text-white/70">Auto-Rotate Camera</span>
-            <button
-              onClick={() => setAutoSpin(!autoSpin)}
-              className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${
-                autoSpin ? 'bg-white/30' : 'bg-white/10'
-              }`}
+        <AnimatePresence>
+          {showControls && (
+            <motion.div 
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.95 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="bg-zinc-950/80 backdrop-blur-xl border border-indigo-500/30 rounded-xl p-5 flex flex-col gap-6 shadow-[0_0_30px_rgba(0,0,0,0.8)] relative overflow-hidden"
             >
-              <span
-                className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform ${
-                  autoSpin ? 'translate-x-4.5' : 'translate-x-1'
-                }`}
-              />
-            </button>
-          </div>
-        </div>
+              {/* Scanline Effect */}
+              <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.25)_50%)] bg-[length:100%_4px] pointer-events-none opacity-20" />
+
+              <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-400 border-b border-indigo-500/20 pb-3 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
+                System Parameters
+              </h2>
+
+              {/* Time of Day */}
+              <div className="flex flex-col gap-2 relative z-10">
+                <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/40">Environment</span>
+                <div className="grid grid-cols-2 gap-2">
+                  {(['day', 'sunset'] as EnvironmentMode[]).map((env) => (
+                    <motion.button
+                      key={env}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => setEnvironment(env)}
+                      className={`py-2 text-xs font-bold uppercase tracking-wider rounded border transition-all duration-300 ${
+                        environment === env ? buttonActive : buttonInactive
+                      }`}
+                    >
+                      {env}
+                    </motion.button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Weather */}
+              <div className="flex flex-col gap-2 relative z-10">
+                <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/40">Atmosphere</span>
+                <div className="grid grid-cols-2 gap-2">
+                  {(['clear', 'rain', 'snow', 'fog'] as WeatherMode[]).map((w) => (
+                    <motion.button
+                      key={w}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => setWeather(w)}
+                      className={`py-2 text-xs font-bold uppercase tracking-wider rounded border transition-all duration-300 ${
+                        weather === w ? buttonActive : buttonInactive
+                      }`}
+                    >
+                      {w}
+                    </motion.button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Rotation Control */}
+              <div className="flex items-center justify-between border-t border-indigo-500/20 pt-4 mt-2 relative z-10">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-indigo-200">Auto-Orbit</span>
+                <motion.button
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => setAutoSpin(!autoSpin)}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 border ${
+                    autoSpin ? 'bg-indigo-600/40 border-indigo-400 shadow-[0_0_10px_rgba(99,102,241,0.5)]' : 'bg-black/50 border-white/20'
+                  }`}
+                >
+                  <motion.span
+                    layout
+                    transition={{ type: "spring", stiffness: 700, damping: 30 }}
+                    className={`inline-block h-4 w-4 transform rounded-full ${
+                      autoSpin ? 'bg-indigo-300 translate-x-6' : 'bg-white/50 translate-x-1'
+                    }`}
+                  />
+                </motion.button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Footer / Instructions */}

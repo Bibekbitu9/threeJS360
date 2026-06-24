@@ -8,15 +8,15 @@ const EnvironmentManager: React.FC = () => {
     <>
       {environment === 'day' && (
         <>
-          <directionalLight position={[5, 10, 5]} intensity={2} castShadow />
-          <ambientLight intensity={0.5} />
+          <directionalLight position={[5, 10, 5]} intensity={3} castShadow />
+          <ambientLight intensity={1.2} />
         </>
       )}
       
       {environment === 'sunset' && (
         <>
-          <directionalLight position={[-5, 2, -5]} intensity={3} color="#ffaa55" castShadow />
-          <ambientLight intensity={0.8} color="#ffccaa" />
+          <directionalLight position={[-5, 2, -5]} intensity={4} color="#ffaa55" castShadow />
+          <ambientLight intensity={1.5} color="#ffccaa" />
         </>
       )}
       

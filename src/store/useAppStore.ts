@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 export type AppMode = 'explore' | 'tour' | 'cinematic';
 export type EnvironmentMode = 'day' | 'sunset' | 'night' | 'festival';
-export type WeatherMode = 'clear' | 'rain' | 'snow' | 'fog' | 'dust';
+export type WeatherMode = 'clear' | 'rain' | 'snow' | 'fog';
 export type CameraPreset = 'hero' | 'front' | 'back' | 'top' | 'side' | 'drone';
 
 interface AppState {
@@ -41,7 +41,7 @@ export const useAppStore = create<AppState>((set) => ({
   mode: 'explore',
   setMode: (mode) => set({ mode }),
   
-  environment: 'night',
+  environment: 'day',
   setEnvironment: (environment) => set({ environment }),
   
   weather: 'clear',

@@ -7,8 +7,8 @@ const isMobile = typeof window !== 'undefined' && (
 );
 
 const MODEL_URL = isMobile
-  ? 'https://asi-tour.in/model_glb_F_4k.glb'
-  : 'https://asi-tour.in/model_glb_F.glb';
+  ? '/model_glb_F_4k.glb'
+  : '/model_glb_F.glb';
 
 const Model: React.FC = () => {
   const { scene } = useGLTF(MODEL_URL);

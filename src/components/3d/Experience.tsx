@@ -4,8 +4,11 @@ import Model from './Model';
 import WeatherManager from './WeatherManager';
 import CameraController from './CameraController';
 import EnvironmentManager from './EnvironmentManager';
+import { useAppStore } from '../../store/useAppStore';
 
 const Experience: React.FC = () => {
+  const { autoSpin } = useAppStore();
+
   return (
     <>
       <CameraController />
@@ -22,8 +25,10 @@ const Experience: React.FC = () => {
         enableZoom={true}
         maxPolarAngle={Math.PI / 2 + 0.1}
         minDistance={2}
-        maxDistance={20}
+        maxDistance={50}
         dampingFactor={0.05}
+        autoRotate={autoSpin}
+        autoRotateSpeed={1.0}
       />
     </>
   );
