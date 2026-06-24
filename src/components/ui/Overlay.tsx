@@ -42,16 +42,14 @@ const Overlay: React.FC = () => {
 
       {/* Control Panel (Right Side Desktop, Bottom Mobile) */}
       <div className="pointer-events-auto flex flex-col gap-4 self-end w-full md:w-auto md:min-w-[320px] mt-4 md:mt-0 md:absolute md:top-8 md:right-8 md:bottom-auto">
-        {/* Toggle Button for Mobile */}
-        {isMobile && (
-          <motion.button 
-            whileTap={{ scale: 0.9 }}
-            onClick={() => setShowControls(!showControls)}
-            className="self-end w-12 h-12 flex items-center justify-center bg-zinc-900/90 backdrop-blur-md border border-indigo-500/50 rounded-full text-xl shadow-[0_0_15px_rgba(99,102,241,0.2)] transition-colors hover:bg-indigo-900/50"
-          >
-            {showControls ? '✕' : '🏛️'}
-          </motion.button>
-        )}
+        {/* Toggle Button for All Devices */}
+        <motion.button 
+          whileTap={{ scale: 0.9 }}
+          onClick={() => setShowControls(!showControls)}
+          className="self-end w-12 h-12 flex items-center justify-center bg-zinc-900/90 backdrop-blur-md border border-indigo-500/50 rounded-full text-xl shadow-[0_0_15px_rgba(99,102,241,0.2)] transition-colors hover:bg-indigo-900/50"
+        >
+          {showControls ? '✕' : '🏛️'}
+        </motion.button>
 
         <AnimatePresence>
           {showControls && (
