@@ -1,5 +1,4 @@
-import React from 'react';
-import { Environment } from '@react-three/drei';
+// Removed unused imports
 import { useAppStore } from '../../store/useAppStore';
 
 const EnvironmentManager: React.FC = () => {

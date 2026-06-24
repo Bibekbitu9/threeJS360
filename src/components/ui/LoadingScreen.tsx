@@ -1,6 +1,5 @@
 import React from 'react';
-import { useAppStore } from '../../store/useAppStore';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const LoadingScreen: React.FC = () => {
   return (

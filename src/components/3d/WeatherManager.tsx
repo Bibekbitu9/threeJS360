@@ -1,6 +1,5 @@
-import React, { useRef } from 'react';
-import { useFrame } from '@react-three/fiber';
-import { Sparkles, Stars, Cloud } from '@react-three/drei';
+import React from 'react';
+import { Sparkles, Cloud } from '@react-three/drei';
 import { useAppStore } from '../../store/useAppStore';
 
 const WeatherManager: React.FC = () => {
@@ -19,7 +18,7 @@ const WeatherManager: React.FC = () => {
       )}
       {weather === 'fog' && (
         <group position={[0, -2, 0]}>
-          <Cloud opacity={0.5} speed={0.4} width={10} depth={1.5} segments={20} />
+          <Cloud opacity={0.5} speed={0.4} segments={20} bounds={[10, 2, 1.5]} />
         </group>
       )}
     </>

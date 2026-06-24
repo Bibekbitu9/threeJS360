@@ -44,7 +44,7 @@ const CameraController: React.FC = () => {
   }, [cameraPreset, camera, controls, mode]);
 
   // Handle Cinematic & Tour Modes
-  useFrame((state, delta) => {
+  useFrame((_state, delta) => {
     if (mode === 'cinematic') {
       cinematicTime.current += delta;
       const t = cinematicTime.current;
