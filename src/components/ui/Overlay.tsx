@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAppStore } from '../../store/useAppStore';
 import type { EnvironmentMode, WeatherMode } from '../../store/useAppStore';
@@ -15,14 +15,7 @@ const Overlay: React.FC = () => {
     return window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   };
 
-  const [isMobile, setIsMobile] = useState(checkIsMobile);
   const [showControls, setShowControls] = useState(!checkIsMobile());
-
-  useEffect(() => {
-    const handleResize = () => setIsMobile(checkIsMobile());
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   // Shared button styles
   const buttonActive = "bg-indigo-500/20 border-indigo-400 text-indigo-100 shadow-[0_0_15px_rgba(99,102,241,0.4)]";
