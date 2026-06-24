@@ -25,3 +25,5 @@ dist-ssr
 
 # Large original model (312MB - exceeds GitHub limit)
 public/model_glb_F.glb
+public/model_glb_F_4k.glb
+
