@@ -1,4 +1,4 @@
-// Removed unused imports
+import React from 'react';
 import { useAppStore } from '../../store/useAppStore';
 
 const EnvironmentManager: React.FC = () => {

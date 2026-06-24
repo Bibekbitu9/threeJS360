@@ -1,27 +1,12 @@
 import { Suspense, useState, useCallback, useRef, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Loader } from '@react-three/drei';
-import Model from './components/3d/Model';
+// No Loader import needed
 import Overlay from './components/ui/Overlay';
 
-function Scene() {
-  return (
-    <>
-      <ambientLight intensity={0.6} />
-      <directionalLight position={[50, 100, 50]} intensity={1.5} />
-      <Model />
-      <OrbitControls
-        makeDefault
-        enablePan={true}
-        enableZoom={true}
-        minDistance={2}
-        maxDistance={5000}
-        autoRotate={true}
-        autoRotateSpeed={0.5}
-      />
-    </>
-  );
-}
+import Experience from './components/3d/Experience';
+
+
+import LoadingScreen from './components/ui/LoadingScreen';
 
 function App() {
   const [contextLost, setContextLost] = useState(false);
@@ -61,6 +46,7 @@ function App() {
   return (
     <div className="w-full h-full relative overflow-hidden bg-black text-white">
       <Overlay />
+      <LoadingScreen />
 
       {contextLost && (
         <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/80">
@@ -87,11 +73,9 @@ function App() {
           className="absolute inset-0 z-0"
           onCreated={handleCreated}
         >
-          <Scene />
+          <Experience />
         </Canvas>
       </Suspense>
-
-      <Loader />
     </div>
   );
 }
