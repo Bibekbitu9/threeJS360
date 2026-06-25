@@ -26,7 +26,7 @@ const Overlay: React.FC = () => {
       {/* Header */}
       <header className="pointer-events-auto max-w-sm md:max-w-md animate-fade-in-down">
         <h1 className="text-3xl md:text-5xl font-black tracking-widest text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.3)] uppercase">
-          Ancient Ruins
+          Chausathi Jogini Temple
         </h1>
         <p className="text-indigo-300 mt-1 text-sm md:text-base font-bold tracking-[0.2em] uppercase text-shadow-sm">
           Interactive Simulation

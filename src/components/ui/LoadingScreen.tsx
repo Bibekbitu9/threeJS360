@@ -63,7 +63,7 @@ const LoadingScreen: React.FC = () => {
 
         {/* Game Title */}
         <h1 className="text-3xl md:text-4xl font-black tracking-[0.25em] text-white uppercase drop-shadow-md">
-          Ruins Explorer
+          Chausathi Jogini Temple
         </h1>
         <div className="h-[2px] w-24 bg-white/20 my-4 mx-auto" />
 
